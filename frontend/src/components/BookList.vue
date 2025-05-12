@@ -9,6 +9,14 @@
       @cancel="cancelForm"
     />
 
+    <!-- Header with Book List title and Add Book Button -->
+    <div class="header-wrapper">
+      <h1 class="book-list-title fw-bold text-primary text-center">Book List</h1>
+      <div class="add-book-wrapper">
+        <button class="btn btn-success" @click="addMode">+ Add Book</button>
+      </div>
+    </div>
+
     <!-- Book Cards -->
     <div class="book-grid">
       <div class="book-card" v-for="book in books" :key="book.id">
@@ -23,11 +31,6 @@
           <button class="btn btn-danger btn-sm" @click="confirmDelete(book)">Delete</button>
         </div>
       </div>
-    </div>
-
-    <!-- Add Book Button -->
-    <div class="add-book-wrapper">
-      <button class="btn btn-success" @click="addMode">+ Add Book</button>
     </div>
 
     <!-- Confirm Delete Modal -->
@@ -258,4 +261,25 @@ export default {
   margin-top: 1.5rem;
 }
 
+/* Header Styles */
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.book-list-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+}
+
+
 </style>
+
+

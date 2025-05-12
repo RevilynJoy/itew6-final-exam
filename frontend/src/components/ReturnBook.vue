@@ -1,18 +1,21 @@
 <template>
+  <div class="mb-4">
+    <h1 class="fw-bold text-primary text-center">Return Book Management</h1>
+  </div>
   <div class="return-book">
-    <div v-if="loading" class="loading">
+    <div v-if="loading" class="loading text-center">
       Loading borrowed books...
     </div>
     
-    <div v-if="successMessage" class="alert alert-success">
+    <div v-if="successMessage" class="alert alert-success text-center">
       {{ successMessage }}
     </div>
     
-    <div v-if="errorMessage" class="alert alert-danger">
+    <div v-if="errorMessage" class="alert alert-danger text-center">
       {{ errorMessage }}
     </div>
     
-    <div v-if="!loading && borrowedBooks.length === 0" class="no-books">
+    <div v-if="!loading && borrowedBooks.length === 0" class="no-books text-center">
       No books are currently borrowed.
     </div>
     
@@ -32,13 +35,11 @@
           <td>{{ transaction.book.title }}</td>
           <td>{{ transaction.book.author }}</td>
           <td>{{ transaction.book.isbn }}</td>
-          <td>
-            {{ getUserDisplay(transaction.user) }}
-          </td>
+          <td>{{ getUserDisplay(transaction.user) }}</td>
           <td>{{ formatDate(transaction.borrow_date) }}</td>
           <td>
             <button
-              @click="returnBook(transaction.id)"
+              @click="openConfirmationModal(transaction)"
               class="return-btn"
               :disabled="returnInProgress === transaction.id"
             >
@@ -48,6 +49,18 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal for confirmation -->
+    <div v-if="showModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Return Confirmation</h3>
+        <p>Are you sure that the book "{{ bookToReturn.book.title }}" is returned?</p>
+        <div class="modal-actions">
+          <button @click="returnBook(bookToReturn.id)" class="btn-confirm">Yes</button>
+          <button @click="closeModal" class="btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,7 +75,9 @@ export default {
       loading: true,
       successMessage: '',
       errorMessage: '',
-      returnInProgress: null
+      returnInProgress: null,
+      showModal: false,
+      bookToReturn: null
     }
   },
   created() {
@@ -85,6 +100,16 @@ export default {
         });
     },
     
+    openConfirmationModal(transaction) {
+      this.bookToReturn = transaction;
+      this.showModal = true;
+    },
+
+    closeModal() {
+      this.showModal = false;
+      this.bookToReturn = null;
+    },
+    
     returnBook(borrowId) {
       this.returnInProgress = borrowId;
       this.successMessage = '';
@@ -101,6 +126,7 @@ export default {
         })
         .finally(() => {
           this.returnInProgress = null;
+          this.closeModal();
         });
     },
     
@@ -130,9 +156,15 @@ export default {
 </script>
 
 <style scoped>
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+}
+
 .return-book {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
 }
 
 .alert {
@@ -164,21 +196,22 @@ export default {
   width: 100%;
   border-collapse: collapse;
   margin: 25px 0;
-  font-size: 0.9em;
+  font-size: 1em;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   overflow: hidden;
+  text-align: center;
 }
 
 .book-table thead tr {
   background-color: #007bff;
   color: #ffffff;
-  text-align: left;
+  text-align: center;
 }
 
 .book-table th,
 .book-table td {
-  padding: 12px 15px;
+  padding: 15px 20px;
 }
 
 .book-table tbody tr {
@@ -215,4 +248,128 @@ export default {
   background-color: #6c757d;
   cursor: not-allowed;
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-confirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+.btn-cancel {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #c82333;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Confirm Delete Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
 </style>

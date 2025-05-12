@@ -1,7 +1,5 @@
 <template>
   <div class="return-management">
-    <h2>📥 Return Management</h2>
-    
     <ReturnBook />
   </div>
 </template>
