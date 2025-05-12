@@ -1,7 +1,6 @@
 <!-- src/views/BooksView.vue -->
 <template>
     <div class="container mt-4">
-      <h2>📘 Manage Books</h2>
       <BookList />
     </div>
   </template>
