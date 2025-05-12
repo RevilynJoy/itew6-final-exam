@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-4"><br>
     <h1 class="text-center mb-4">Book Management System</h1>
 
     <nav class="mb-4">
@@ -19,7 +19,14 @@ export default {
 }
 </script>
 
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
 body {
   background-color: #f9f9f9;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

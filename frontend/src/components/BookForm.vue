@@ -14,7 +14,13 @@
         </div>
         <div class="form-group">
           <label>ISBN</label>
-          <input v-model="localBook.isbn" class="form-control" required placeholder="Enter ISBN">
+          <input v-model="localBook.isbn" 
+                 class="form-control" 
+                 required 
+                 placeholder="Enter ISBN"
+                 @input="validateISBN"
+                 :class="{'is-invalid': isbnError}">
+          <div v-if="isbnError" class="invalid-feedback">ISBN must be exactly 10 digits.</div>
         </div>
         <div class="form-group">
           <label>Copies Available</label>
@@ -22,7 +28,7 @@
         </div>
 
         <div class="button-group">
-          <button type="submit" class="btn btn-primary">{{ localBook.id ? 'Update' : 'Add' }}</button>
+          <button type="submit" class="btn btn-primary" :disabled="isbnError">{{ localBook.id ? 'Update' : 'Add' }}</button>
           <button type="button" class="btn btn-secondary" @click="$emit('cancel')">Cancel</button>
         </div>
       </form>
@@ -35,7 +41,8 @@ export default {
   props: ['book'],
   data() {
     return {
-      localBook: { ...this.book }
+      localBook: { ...this.book },
+      isbnError: false, // Variable to track if ISBN is valid
     };
   },
   watch: {
@@ -44,7 +51,14 @@ export default {
     }
   },
   methods: {
+    validateISBN() {
+      const isbnPattern = /^\d{10}$/; // Regular expression for exactly 10 digits
+      this.isbnError = !isbnPattern.test(this.localBook.isbn);
+    },
     handleSubmit() {
+      if (this.isbnError) {
+        return; // Prevent form submission if ISBN is invalid
+      }
       this.$emit(this.localBook.id ? 'update' : 'add', this.localBook);
     }
   }
@@ -52,7 +66,13 @@ export default {
 </script>
 
 <style scoped>
-/* Overlay - Dark background to focus user attention */
+/* Apply Poppins font globally */
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -100,8 +120,8 @@ export default {
 }
 
 .form-group input {
-  width: 100%;
-  padding: 0.8rem;
+  width: 95%;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
@@ -111,6 +131,16 @@ export default {
 
 .form-group input:focus {
   border-color: #007bff;
+}
+
+/* Invalid input styling */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
 }
 
 /* Button Group - Give buttons space and visual balance */

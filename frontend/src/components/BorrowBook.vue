@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h3>🔄 Borrow a Book</h3>
+      <h3>Borrow a Book</h3>
   
     <div v-if="successMessage" class="alert alert-success">
       {{ successMessage }}
@@ -98,21 +98,118 @@
   </script>
   
 <style scoped>
-.alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Apply Poppins font globally */
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/* Container for the form */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading styles */
+h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Alert styling */
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Success alert styling */
 .alert-success {
   background-color: #d4edda;
   color: #155724;
   border: 1px solid #c3e6cb;
 }
 
+/* Error alert styling */
 .alert-danger {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+
+/* Form elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Label styling */
+label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Input and select elements */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+}
+
+/* Disabled select options */
+.form-control[disabled] {
+  background-color: #f1f1f1;
+  cursor: not-allowed;
+}
+
+/* Button styles */
+button.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+button.btn-primary {
+  background-color: #007bff;
+  border: none;
+  color: white;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+button.btn-primary:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Margin for the button */
+button.btn {
+  margin-top: 1rem;
+}
 </style>
+
